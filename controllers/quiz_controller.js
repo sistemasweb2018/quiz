@@ -8,5 +8,5 @@ else
 {res.render('quizes/answer',{respuesta: 'Incorrecta'})}
 };
 exports.author=function(req,res){
-res .render('author');
+ res.render('author');
 };
