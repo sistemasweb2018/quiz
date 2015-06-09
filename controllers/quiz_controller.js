@@ -5,5 +5,8 @@ exports.answer=function(req,res){
 if (req.query.respuesta==='Vitoria'){
 	res .render('quizes/answer',{respuesta: 'Correcta'})}
 else
-{res .render('quizes/answer',{respuesta: 'Incorrecta'})}
+{res.render('quizes/answer',{respuesta: 'Incorrecta'})}
+};
+exports.author=function(req,res){
+res .render('author');
 };
