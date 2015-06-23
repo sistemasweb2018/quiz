@@ -52,22 +52,22 @@ exports.answer = function(req, res) {
 exports.new = function(req, res) {
   var quiz = models.Quiz.build( // crea objeto quiz 
     {pregunta: "Pregunta", respuesta: "Respuesta"});
-	Console.log(quiz);
-    res.render('quizes/new', {quiz: quiz, errors: []});
+    res.render('quizes/new', {quiz:quiz, errors: []});
 };
 exports.create=function(req,res) {
-    var quiz = models.Quiz.build(req.body.quiz );
-	var errors=quiz.validate()
-	if (errors) {
-	var i = 0; 
-	var errores = new Array();                                            
-	for (var prop in errors) errores[i++] = {message: errors[prop]};        
-            res.render('quizes/new', {quiz: quiz, errors: errores});
-     } else {
-            quiz                                                                 // save: guarda en DB campos pregunta y respuesta de quiz
-            .save({fields: ["pregunta", "respuesta"]})
-           .then(function() {res.redirect('/quizes')});
-      }
+    var quiz = models.Quiz.build(req.body.quiz);
+	quiz
+	.validate()
+	.then(
+		function(err){
+			if (err){
+				res.render('quizes/new', {quiz:quiz,errors:err.errors});
+			}else{
+				quiz.save({fields: ["pregunta", "respuesta"]})
+				.then(function() {res.redirect('/quizes')})
+			}
+		}
+	);
 };
 exports.author=function(req,res){
 	res.render('author', {errors: []});
