@@ -30,11 +30,14 @@ sequelize.sync().then(function(){
 	Quiz.count().then(function(count){
 		if (count === 0){
 			Quiz.create({pregunta:'Capital de Euskadi',
-						 respuesta:'Vitoria'});
+						 respuesta:'Vitoria',
+						 tema:'Geografia'});
 			Quiz.create({pregunta:'Capital de Italia',
-						 respuesta:'Roma'});
+						 respuesta:'Roma',
+						 tema:'Geografia'});
 			Quiz.create({pregunta:'Capital de Kiribati',
-						 respuesta:'Tarawa'})
+						 respuesta:'Tarawa',
+						 tema:'Geografia'})
 		     .then(function(){console.log('BD inicializada')});
 		};
 	});
