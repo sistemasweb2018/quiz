@@ -1,14 +1,5 @@
 var models=require('../models/models.js');
-// exports.load = function(req, res, next, quizId) {
-  // models.Quiz.findById(quizId).then(
-	// function(quiz) {
-      // if (quiz) {
-        // req.quiz = quiz;
-        // next();
-      // } else{next(new Error('No existe quizId=' + quizId))}
-    // }
-  // ).catch(function(error){next(error);});
-// };
+
 exports.load = function(req, res, next, quizId) {
   models.Quiz.find({
             where: {
@@ -68,6 +59,33 @@ exports.create=function(req,res) {
 			}
 		}
 	);
+};
+exports.edit = function(req, res) {
+  var quiz = req.quiz;  // req.quiz: autoload de instancia de quiz
+  res.render('quizes/edit', {quiz:quiz, errors: []});
+};
+exports.update = function(req, res) {
+ req.quiz.pregunta  = req.body.quiz.pregunta;
+ req.quiz.respuesta = req.body.quiz.respuesta;
+
+  req.quiz
+  .validate()
+  .then(
+    function(err){
+      if (err) {
+        res.render('quizes/edit', {quiz: req.quiz, errors: err.errors});
+      } else {
+        req.quiz     // save: guarda campos pregunta y respuesta en DB
+        .save( {fields: ["pregunta", "respuesta"]})
+        .then( function(){ res.redirect('/quizes');});
+      }     // Redirección HTTP a lista de preguntas (URL relativo)
+    }
+  ).catch(function(error){next(error)});
+};
+exports.destroy = function(req, res) {
+  req.quiz.destroy().then( function() {
+    res.redirect('/quizes');
+  }).catch(function(error){next(error)});
 };
 exports.author=function(req,res){
 	res.render('author', {errors: []});
