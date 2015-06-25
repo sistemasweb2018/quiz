@@ -5,6 +5,7 @@ exports.load = function(req, res, next, quizId) {
             where: {
                 id: Number(quizId)
             },
+			include:[{model:models.Comment}]
         }).then(function(quiz) {
       if (quiz) {
         req.quiz = quiz;
